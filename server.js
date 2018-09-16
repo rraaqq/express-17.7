@@ -32,7 +32,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.get('/', function (req, res) {
-  res.render('index', { user: req.user })
+  const isLogged = (googleProfile.id === undefined) ? res.render('index', { user: req.user }) : res.render('logged', { user: googleProfile })
 })
 
 app.get('/logged', function (req, res) {
@@ -43,6 +43,7 @@ app.get('/auth/google',
   passport.authenticate('google', {
     scope: ['profile', 'email']
   }))
+
 app.get('/auth/google/callback',
   passport.authenticate('google', {
     successRedirect: '/logged',
